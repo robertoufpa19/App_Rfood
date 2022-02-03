@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/textPedidoNome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="Jamilton damasceno"
+        android:textColor="@color/ic_logo_rfood_background"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textPedidoCidade"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Cidade "
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/textPedidoBairro"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Bairro"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/textPedidoRua"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Rua"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/textPedidoNumero"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Numero"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/textPedidoTelefone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Telefone"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/textPedidoPgto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Pgto: Dinheiro"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/textPedidoObs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="Obs: teste"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/textPedidoItens"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="1) Filé Cinco Queijos (1 X R$ 16.50)"
+        android:textColor="@color/ic_logo_rfood_background"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <include layout="@layout/divisor" />
+
+</LinearLayout>

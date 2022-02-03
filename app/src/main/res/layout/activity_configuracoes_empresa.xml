@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.ConfiguracoesEmpresaActivity">
+    <include
+        android:id="@+id/include"
+        layout="@layout/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Escolha uma foto"
+            android:textColor="@color/ic_logo_rfood_background" />
+
+        <ImageView
+            android:id="@+id/imagePerfilEmpresa"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            app:srcCompat="@drawable/perfil" />
+
+        <EditText
+            android:id="@+id/editEmpresaNome"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_edit_text"
+            android:ems="10"
+            android:hint="Nome empresa"
+            android:inputType="text"
+            android:padding="16dp"
+            android:textColor="#000000"
+            android:textColorHighlight="#151515"
+            android:textColorHint="@color/ic_logo_rfood_background"
+            android:textColorLink="#090909" />
+
+        <EditText
+            android:id="@+id/editEmpresaCategoria"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-2dp"
+            android:background="@drawable/bg_edit_text"
+            android:ems="10"
+            android:hint="Categoria"
+            android:inputType="text"
+            android:padding="16dp"
+            android:textColor="#000000"
+            android:textColorHighlight="#020202"
+            android:textColorHint="@color/ic_logo_rfood_background"
+            android:textColorLink="#040404" />
+
+        <EditText
+            android:id="@+id/editEmpresaTempoEntrega"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-2dp"
+            android:background="@drawable/bg_edit_text"
+            android:ems="10"
+            android:hint="Tempo de entrega"
+            android:inputType="text"
+            android:padding="16dp"
+            android:textColor="#000000"
+            android:textColorHighlight="#020202"
+            android:textColorHint="@color/ic_logo_rfood_background"
+            android:textColorLink="#040404" />
+
+
+        <me.abhinay.input.CurrencyEditText
+            android:id="@+id/editTaxaEntrega"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/bg_edit_text"
+            android:ems="10"
+            android:hint="Taxa de entrega"
+            android:inputType="number"
+            android:padding="10dp"
+            android:textColor="@color/purple_700"
+            android:textColorHint="@color/ic_logo_rfood_background"
+            tools:ignore="TouchTargetSizeCheck">
+
+        </me.abhinay.input.CurrencyEditText>
+
+
+        <Button
+            android:id="@+id/buttonAcesso2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/fundo_botao"
+            android:onClick="validarDadosEmpresa"
+            android:padding="16dp"
+            android:text="Salvar"
+            android:textColor="#000000" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "72280103213",
+    "project_id": "r-food",
+    "storage_bucket": "r-food.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:72280103213:android:20cd3f9e278c6c13b09ba4",
+        "android_client_info": {
+          "package_name": "robertorodrigues.curso.rfood"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "72280103213-t4n3dm70m5uevemub5bmheq1t3tv32d1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "robertorodrigues.curso.rfood",
+            "certificate_hash": "e199d6e6777f32d53d80d1673ff853bb4bf80fae"
+          }
+        },
+        {
+          "client_id": "72280103213-d4gesft9pjcj7sgscu3n5atb2trqji9p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDSETI9-uprIZ2lwPieirZZzcrpALsxyTk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "72280103213-d4gesft9pjcj7sgscu3n5atb2trqji9p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
