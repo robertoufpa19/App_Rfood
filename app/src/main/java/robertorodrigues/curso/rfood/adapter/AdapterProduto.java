@@ -12,6 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
+import com.synnapps.carouselview.CarouselView;
+import com.synnapps.carouselview.ImageListener;
 
 import java.util.List;
 
@@ -48,8 +50,21 @@ public class AdapterProduto extends RecyclerView.Adapter<AdapterProduto.MyViewHo
         holder.valor.setText("R$ " + produto.getPreco());
 
         //Carregar imagem
-        String urlImagem = produto.getUrlImagem();
-        Picasso.get().load( urlImagem ).into( holder.imagemProduto );
+       //  String urlImagem = produto.getUrlImagem();
+       // Picasso.get().load( urlImagem ).into( holder.imagemProduto );
+
+
+
+        ImageListener imageListener =  new ImageListener() {
+            @Override
+            public void setImageForPosition(int position, ImageView imageView) {
+                String urlString = produto.getFotosProduto().get(position);
+                Picasso.get().load(urlString).into(imageView);
+            }
+        };
+
+        holder.carouselView.setPageCount(produto.getFotosProduto().size()); // pega a quantidades de fotos
+        holder.carouselView.setImageListener(imageListener);
     }
 
     @Override
@@ -62,6 +77,7 @@ public class AdapterProduto extends RecyclerView.Adapter<AdapterProduto.MyViewHo
         TextView nome;
         TextView descricao;
         TextView valor;
+        CarouselView carouselView;
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -70,6 +86,9 @@ public class AdapterProduto extends RecyclerView.Adapter<AdapterProduto.MyViewHo
             descricao = itemView.findViewById(R.id.textDescricaoRefeicao);
             valor = itemView.findViewById(R.id.textPreco);
             imagemProduto = itemView.findViewById(R.id.imageProdutoEmpresa2);
+            carouselView = itemView.findViewById(R.id.carouselView);
+
+
         }
     }
 }

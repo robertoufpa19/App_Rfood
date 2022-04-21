@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
+    android:layout_marginTop="5dp"
     android:layout_height="wrap_content"
+    android:background="#DDDCDC"
     android:orientation="vertical">
 
     <LinearLayout
@@ -9,14 +12,18 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/imageProdutoEmpresa2"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_gravity="center"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:src="@drawable/perfil" />
+        <com.synnapps.carouselview.CarouselView
+            android:id="@+id/carouselView"
+            android:layout_width="78dp"
+            android:layout_height="81dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="8dp"
+            app:fillColor="#FFFFFFFF"
+            app:pageColor="#00000000"
+            app:radius="6dp"
+            app:slideInterval="3000"
+            app:strokeColor="#FF777777"
+            app:strokeWidth="1dp" />
 
 
         <LinearLayout
@@ -29,6 +36,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="6dp"
+                android:layout_marginLeft="15dp"
                 android:text="Sushi de salmão"
                 android:textColor="@color/ic_logo_rfood_background"
                 android:textSize="16sp"
@@ -39,6 +47,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="6dp"
+                android:layout_marginLeft="15dp"
+                android:textColor="@color/black"
                 android:text="Salmão com nosso delicioso arroz temperado"
                 android:textSize="14sp" />
 
@@ -47,6 +57,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="R$ 19.90"
+                android:layout_marginLeft="15dp"
                 android:textColor="@android:color/holo_green_light"
                 android:textSize="18sp"
                 android:textStyle="bold" />

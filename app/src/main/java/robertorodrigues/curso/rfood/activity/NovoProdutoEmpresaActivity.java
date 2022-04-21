@@ -5,9 +5,12 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -20,30 +23,60 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.santalu.maskedittext.MaskEditText;
 
-import java.io.ByteArrayOutputStream;
-import java.util.UUID;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 import dmax.dialog.SpotsDialog;
+import me.abhinay.input.CurrencyEditText;
 import robertorodrigues.curso.rfood.R;
 import robertorodrigues.curso.rfood.helper.ConfiguracaoFirebase;
+import robertorodrigues.curso.rfood.helper.Permissoes;
 import robertorodrigues.curso.rfood.helper.UsuarioFirebase;
+import robertorodrigues.curso.rfood.model.Empresa;
 import robertorodrigues.curso.rfood.model.Produto;
 
-public class NovoProdutoEmpresaActivity extends AppCompatActivity {
+public class NovoProdutoEmpresaActivity extends AppCompatActivity   implements View.OnClickListener{
 
-    private EditText editProdutoNome, editProdutoDescricao, editProdutoPreco;
-    private ImageView imagePerfilProduto;
+   /* private EditText editProdutoNome, editProdutoDescricao, editProdutoPreco;
+
     private String idUsuarioLogado;
     private String idProduto ;
     private StorageReference storageReference;
     private DatabaseReference firebaseRef;
     private String urlImagemSelecionada = "";
-    private static  final int SELECAO_GALERIA = 200;
+    private static  final int SELECAO_GALERIA = 200; */
+
+
+
+    /// novos
+
+    private EditText campoTitulo, campoDescricao;
+    private CurrencyEditText campoValor;
+    private ImageView imagem1, imagem2, imagem3, imagem4;
+
+    private String[] permissoes = new String[]{
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.CAMERA
+    };
+    private List<String> listaFotosRecuperadas = new ArrayList<>(); // lista o caminho de fotos no dispositivo do usuario
+    private List<String> listaURLFotos = new ArrayList<>(); // lista o caminho de fotos no firebase
+
+    private Produto produto;
+    private StorageReference storage;
     private AlertDialog dialog;
+
+    private Empresa empresa;
+    private String idEmpresaLogado;
+    private DatabaseReference firebaseRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,21 +89,146 @@ public class NovoProdutoEmpresaActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        // configuracoes iniciais
-        storageReference = ConfiguracaoFirebase.getFirebaseStorage();
-        firebaseRef = ConfiguracaoFirebase.getFirebaseDatabase();
-        idUsuarioLogado = UsuarioFirebase.getIdUsuario();
         inicializarComponentes();
 
-        imagePerfilProduto.setOnClickListener(new View.OnClickListener() {
+        //configuracoes iniciais
+        storage = ConfiguracaoFirebase.getFirebaseStorage();
+        firebaseRef = ConfiguracaoFirebase.getFirebaseDatabase();
+        idEmpresaLogado = UsuarioFirebase.getIdUsuario();
+
+        //validar permissoes
+        Permissoes.validarPermissoes(permissoes, this, 1);
+
+        recuperarDadosEmpresa();
+
+        empresa = UsuarioFirebase.getDadosEmpresaLogado();
+
+
+
+    }
+
+    public void salvarAnuncio(){
+
+        dialog = new SpotsDialog.Builder()
+                .setContext(this)
+                .setMessage("Salvando Produto!")
+                .setCancelable(false)
+                .build();
+        dialog.show();
+
+        // salvar a imagem no storage
+        // o indice ZERO corresponde a imagem 1
+        for(int i =0; i < listaFotosRecuperadas.size(); i++){
+            String urlImagem = listaFotosRecuperadas.get(i);
+            int tamanhoLIsta = listaFotosRecuperadas.size();
+
+            salvarFotoStorage( urlImagem, tamanhoLIsta, i);
+
+        }
+
+    }
+    private void salvarFotoStorage(String urlString, int totalFotos, int contador){
+
+        //criar no no storage
+        final StorageReference imagemAnuncio = storage.child("imagens")
+                .child("produtos")
+                .child(produto.getIdProduto())
+                .child("imagem"+contador); //imagem1, imagem2, imagem3
+
+        //fazer upload das imagens
+        UploadTask uploadTask = imagemAnuncio.putFile(Uri.parse(urlString));
+        uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
-            public void onClick(View v) {
-                Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
-                if(i.resolveActivity(getPackageManager()) != null){
-                    startActivityForResult(i, SELECAO_GALERIA);
+                imagemAnuncio.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Uri> task) {
 
+                        Uri firebaseUrl = task.getResult();
+
+                        String urlConvertida = firebaseUrl.toString();
+                        listaURLFotos.add(urlConvertida);
+
+                        if(totalFotos == listaURLFotos.size()){
+                            produto.setFotosProduto(listaURLFotos);
+                            produto.salvar();
+                            dialog.dismiss(); // fecha dialog
+                            finish(); // finaliza a activity
+
+                        }
+                    }
+                });
+
+                exibirMensagem("Sucesso ao fazer upload das imagem!");
+
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+                exibirMensagem("Erro ao fazer upload das imagem!");
+            }
+        });
+
+    }
+
+
+
+    private Produto configurarAnuncio(){
+
+        String titulo = campoTitulo.getText().toString();
+        String valor = campoValor.getText().toString();
+        String descricao = campoDescricao.getText().toString();
+
+        produto = new Produto();
+        produto.setNome(titulo);
+        produto.setPreco(valor);
+        produto.setDescricao(descricao);
+        //falta salvar foto e nome do vendedor
+        if(empresa != null){
+            String  nomeVendedor =  empresa.getNome();
+            String  fotoVendedor = empresa.getUrlImagem();
+            String idUsuario = ConfiguracaoFirebase.getIdUsuario();
+            produto.setNomeVendedor(nomeVendedor);
+            produto.setFotoVendedor(fotoVendedor);
+            produto.setIdUsuario(idUsuario);
+            produto.setEmpresaExibicao(empresa);
+        }
+
+
+
+        return  produto;
+
+    }
+
+
+
+
+    private void recuperarDadosEmpresa(){
+        dialog = new SpotsDialog.Builder()
+                .setContext(this)
+                .setMessage("Carregando dados")
+                .setCancelable(false)
+                .build();
+        dialog.show();
+
+        DatabaseReference usuarioRef = firebaseRef
+                .child("empresas")
+                .child(idEmpresaLogado);
+        // recupera dados uma unica vez
+        usuarioRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.getValue() != null){
+                    empresa = snapshot.getValue(Empresa.class);
                 }
+                dialog.dismiss();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });
@@ -82,41 +240,29 @@ public class NovoProdutoEmpresaActivity extends AppCompatActivity {
 
     public  void validarDadosProduto(View view){
 
-        // validar os campos que foram preenchidos
-        String nome = editProdutoNome.getText().toString();
-        String descricao = editProdutoDescricao.getText().toString();
-        String preco = editProdutoPreco.getText().toString();
-        String foto = urlImagemSelecionada;
+        produto = configurarAnuncio();
 
-        if(foto != "") {
-            if (!nome.isEmpty()) {
-                if (!descricao.isEmpty()) {
-                    if (!preco.isEmpty()) {
+        if(listaFotosRecuperadas.size() != 0){
 
-                        Produto produto = new Produto();
-                        produto.setIdUsuario(idUsuarioLogado);
-                        produto.setNome(nome);
-                        produto.setDescricao(descricao);
-                        produto.setPreco(Double.parseDouble(preco)); //teste
-                        produto.setUrlImagem(urlImagemSelecionada);
-                        produto.salvar();
-                        finish();
-                        exibirMensagem("Produto Salvo com sucesso");
+                    if(!produto.getNome().isEmpty()){
+                        if(!produto.getPreco().isEmpty()){
+                                if(!produto.getDescricao().isEmpty()){
 
-                    } else {
-                        exibirMensagem("Digite um preco para o produto!!");
+                                    salvarAnuncio();
+
+                                }else {
+                                    exibirMensagem("Digite uma descricao");
+                                }
+
+                        }else{
+                            exibirMensagem("Digite um valor");
+                        }
+
+                    }else{
+                        exibirMensagem("Digite um titulo");
                     }
-
-                } else {
-                    exibirMensagem("Digite uma descricao para o produto!!");
-                }
-
-            } else {
-                exibirMensagem("Digite um nome para o produto!");
-            }
-
         }else{
-            exibirMensagem("Configure uma foto para o Produto!");
+            exibirMensagem("Selecione uma foto!");
         }
 
     }
@@ -125,91 +271,117 @@ public class NovoProdutoEmpresaActivity extends AppCompatActivity {
         Toast.makeText(this, texto, Toast.LENGTH_SHORT).show();
     }
 
+
+
+    @Override
+    public void onClick(View v) {
+
+
+        switch (v.getId()){
+            case R.id.imageCadastro1:
+                escolherImagem(1);
+                break;
+
+            case R.id.imageCadastro2:
+                escolherImagem(2);
+                break;
+
+            case R.id.imageCadastro3:
+                escolherImagem(3);
+                break;
+
+            case R.id.imageCadastro4:
+                escolherImagem(4);
+                break;
+
+
+        }
+
+    }
+
+    public  void escolherImagem(int requestCode){
+        Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(i, requestCode);
+    }
+
+    // captura a imagem escolhida
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(resultCode == RESULT_OK){
-            Bitmap imagem = null;
+        if(resultCode == Activity.RESULT_OK){
+            //recuperar imagem
+            Uri imagemSelecionada = data.getData();
+            String caminhoImagem = imagemSelecionada.toString();
 
-            try {
-                switch (requestCode){
-                    case  SELECAO_GALERIA:
-                        Uri localImagem = data.getData();
-                        imagem = MediaStore.Images.Media.getBitmap(getContentResolver(), localImagem);
-                        break;
-                }
+            //configiurar imagem no ImageView
+            if(requestCode == 1){
+                imagem1.setImageURI(imagemSelecionada);
 
-                if(imagem != null){
-                    imagePerfilProduto.setImageBitmap(imagem);
+            }else if(requestCode == 2){
+                imagem2.setImageURI(imagemSelecionada);
+            }else if(requestCode == 3){
+                imagem3.setImageURI(imagemSelecionada);
+            }else if(requestCode == 4){
+                imagem4.setImageURI(imagemSelecionada);
+            }
 
-
-                    // fazer upload da imagem para o firebase storage
-                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                    imagem.compress(Bitmap.CompressFormat.JPEG, 70, baos);
-                    byte[] dadosImagem = baos.toByteArray();
-
-                    // cria nome que não se repete
-                    String nomeImagem = UUID.randomUUID().toString();
-
-                    dialog = new SpotsDialog.Builder()
-                            .setContext(this)
-                            .setMessage("Carregando dados")
-                            .setCancelable(false)
-                            .build();
-                    dialog.show();
-
-                    final  StorageReference imageRef = storageReference
-                            .child("imagens")
-                            .child("produtos")
-                            .child(nomeImagem + "jpeg");
+            listaFotosRecuperadas.add(caminhoImagem);
+        }
+    }
 
 
 
-                    UploadTask uploadTask = imageRef.putBytes(dadosImagem);
-                    uploadTask.addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(NovoProdutoEmpresaActivity.this,
-                                    "Erro ao fazer upload da imagem!",
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                    }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            // recupera a url da imagem (versao atualizada do firebase)
-                            imageRef.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Uri> task) {
-                                    Uri url =   task.getResult();
-                                    urlImagemSelecionada = url.toString();
+    private  void inicializarComponentes(){
+        campoDescricao = findViewById(R.id.editDescricao);
+        campoTitulo = findViewById(R.id.editTitulo);
+        campoValor = findViewById(R.id.editValor);
+        imagem1 = findViewById(R.id.imageCadastro1);
+        imagem2 = findViewById(R.id.imageCadastro2);
+        imagem3 = findViewById(R.id.imageCadastro3);
+        imagem4 = findViewById(R.id.imageCadastro4);
 
-                                }
-                            });
 
-                            dialog.dismiss(); // fecha o carregando
+        imagem1.setOnClickListener(this);
+        imagem2.setOnClickListener(this);
+        imagem3.setOnClickListener(this);
+        imagem4.setOnClickListener(this);
 
-                            Toast.makeText(NovoProdutoEmpresaActivity.this,
-                                    "Sucesso ao fazer upload da imagem!",
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                    });
+        // configurar localidade para pt -> portugues BR -> Brasil
+        Locale locale = new Locale("pt", "BR");
+        campoValor.setTextLocale(locale);
+    }
 
-                }
 
-            }catch (Exception e){
-                e.printStackTrace();
+
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        for( int permissaoResultado : grantResults){
+            if(permissaoResultado == PackageManager.PERMISSION_DENIED){
+                alertaValidarPermissao();
             }
         }
     }
 
-    private void inicializarComponentes(){
-        editProdutoDescricao = findViewById(R.id.editDescricaoNovoProduto);
-        editProdutoNome = findViewById(R.id.nomeNovoProduto);
-        editProdutoPreco = findViewById(R.id.editPrecoNovoProduto);
-        imagePerfilProduto = findViewById(R.id.imagePerfilProduto);
 
+    private void alertaValidarPermissao(){
 
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Permissoes Negadas");
+        builder.setMessage("Para utilizar o app e necessario aceitar as permissoes");
+        builder.setCancelable(false);
+        builder.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        });
 
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }

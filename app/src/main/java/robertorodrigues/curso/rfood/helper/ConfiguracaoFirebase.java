@@ -42,4 +42,11 @@ public class ConfiguracaoFirebase {
 
     }
 
+
+    public static String getIdUsuario(){
+
+        FirebaseAuth autenticacao = getFirebaseAutenticacao();
+        return autenticacao.getCurrentUser().getUid();
+    }
+
 }

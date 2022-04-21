@@ -247,9 +247,10 @@ public class CardapioActivity extends AppCompatActivity {
 
                      for (ItemPedido itemPedido : itensCarrinho) {
                           int qtde = itemPedido.getQuantidade();
-                          Double  preco = itemPedido.getPreco();
+                          String  preco = itemPedido.getPreco();
                          // calculo da compra do usuario
-                           totalCarrinho += (qtde * preco);
+                           //totalCarrinho += (qtde * preco);
+                           totalCarrinho += (qtde);
                            qtdItensCarrinho += qtde;
 
                      }

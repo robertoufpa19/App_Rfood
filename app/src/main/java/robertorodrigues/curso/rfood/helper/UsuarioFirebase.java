@@ -4,6 +4,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 
+import robertorodrigues.curso.rfood.model.Empresa;
 import robertorodrigues.curso.rfood.model.Usuario;
 
 public class UsuarioFirebase {
@@ -36,6 +37,28 @@ public class UsuarioFirebase {
         }
 
         return  usuario;
+    }
+
+
+
+    public  static Empresa getDadosEmpresaLogado(){
+
+        FirebaseUser firebaseUser = getUsuarioAtual();
+        Empresa empresa = new Empresa();
+        //usuario.setEmail(firebaseUser.getEmail());
+        empresa.setNome(firebaseUser.getDisplayName());
+        //  usuario.setToken(""); // falta recuperar token do usuario logado pra notificar no grupo
+
+
+
+        if(firebaseUser.getPhotoUrl() == null){
+            empresa.setUrlImagem("");
+        }else{
+            empresa.setUrlImagem(firebaseUser.getPhotoUrl().toString());
+
+        }
+
+        return  empresa;
     }
 
 

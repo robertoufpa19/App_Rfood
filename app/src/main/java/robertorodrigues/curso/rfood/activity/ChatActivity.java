@@ -469,6 +469,8 @@ public class ChatActivity extends AppCompatActivity {
                 Mensagem mensagem = dataSnapshot.getValue( Mensagem.class );
                 mensagens.add( mensagem );
                 adapter.notifyDataSetChanged();
+                // da o foco na ultima mensagem enviada
+                recyclerMensagens.scrollToPosition(mensagens.size() -1 );
             }
 
             @Override
