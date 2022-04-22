@@ -57,7 +57,7 @@ public class AdapterPedido extends RecyclerView.Adapter<AdapterPedido.MyViewHold
 
             int qtde = itemPedido.getQuantidade();
             String preco = itemPedido.getPreco();
-           // total += (qtde * Double.parseDouble(preco) );
+           // total += (qtde * Double.parseDouble(preco) ); // erro corrigir
             total += (qtde );
 
             String nome = itemPedido.getNomeProduto();

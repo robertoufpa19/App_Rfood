@@ -184,7 +184,7 @@ public class NovoProdutoEmpresaActivity extends AppCompatActivity   implements V
 
         produto = new Produto();
         produto.setNome(titulo);
-        produto.setPreco(valor);
+        produto.setPreco( valor);
         produto.setDescricao(descricao);
         //falta salvar foto e nome do vendedor
         if(empresa != null){
@@ -245,7 +245,7 @@ public class NovoProdutoEmpresaActivity extends AppCompatActivity   implements V
         if(listaFotosRecuperadas.size() != 0){
 
                     if(!produto.getNome().isEmpty()){
-                        if(!produto.getPreco().isEmpty()){
+                        if(!produto.getPreco().equals("0")){
                                 if(!produto.getDescricao().isEmpty()){
 
                                     salvarAnuncio();
