@@ -18,6 +18,7 @@ import com.google.firebase.messaging.RemoteMessage;
 
 import robertorodrigues.curso.rfood.R;
 import robertorodrigues.curso.rfood.activity.ChatActivity;
+import robertorodrigues.curso.rfood.fragment.ConversasFragment;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
@@ -40,7 +41,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         //Configuração para notificação
         String canal = getString(R.string.default_notification_channel_id);
         Uri uriSom = RingtoneManager.getDefaultUri( RingtoneManager.TYPE_NOTIFICATION );
-        Intent intent = new Intent(this, ChatActivity.class);
+        Intent intent = new Intent(this, ConversasFragment.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
 
         //Criar notificação

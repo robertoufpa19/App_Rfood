@@ -8,6 +8,7 @@
     android:layout_marginBottom="6dp"
     android:orientation="vertical"
     android:paddingLeft="16dp"
+    android:background="#EDEDED"
     android:paddingTop="10dp"
     android:paddingRight="16dp"
     android:paddingBottom="10dp"
@@ -52,6 +53,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="email"
+                android:textColor="#454545"
                 android:visibility="visible"
                 tools:visibility="visible" />
         </LinearLayout>
