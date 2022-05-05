@@ -26,6 +26,7 @@ import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
@@ -60,6 +61,7 @@ public class ChatActivity extends AppCompatActivity {
 
    private Pedido pedidoUsuarioDestinatario;
     private String token;
+    private DatabaseReference usuarioRef;
 
     private EditText editMensagem;
 
@@ -84,6 +86,8 @@ public class ChatActivity extends AppCompatActivity {
 
     private String baseUrl;
     private Retrofit retrofit;
+
+
 
 
 
@@ -517,6 +521,9 @@ public class ChatActivity extends AppCompatActivity {
     }
 
 
+
+
+
     public void enviarNotificacao(){
 
         Bundle bundleNotificacao = getIntent().getExtras();
@@ -529,7 +536,7 @@ public class ChatActivity extends AppCompatActivity {
             to = tokenDestinatario ;
 
             //Monta objeto notificação
-            Notificacao notificacao = new Notificacao("Rfood", "Nova Mensagem");
+            Notificacao notificacao = new Notificacao("Rfood", "Nova Mensagem " );
             NotificacaoDados notificacaoDados = new NotificacaoDados(to, notificacao );
 
             NotificacaoService service = retrofit.create(NotificacaoService.class);
