@@ -147,9 +147,6 @@ public class CardapioActivity extends AppCompatActivity {
                 )
         );
 
-        // recuperar produtos da empresa do firebase e dados do usuario
-        recuperarProdutos();
-        recuperarDadosUsuario();
 
 
 
@@ -463,7 +460,7 @@ public class CardapioActivity extends AppCompatActivity {
             to = tokenDestinatario ;
 
             //Monta objeto notificação
-            Notificacao notificacao = new Notificacao("CeV", "Novo Pedido " + usuario.getNome());
+            Notificacao notificacao = new Notificacao("Rfood", "Novo Pedido " + usuario.getNome());
             NotificacaoDados notificacaoDados = new NotificacaoDados(to, notificacao );
 
             NotificacaoService service = retrofit.create(NotificacaoService.class);
@@ -492,6 +489,15 @@ public class CardapioActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        // recuperar produtos da empresa do firebase e dados do usuario
+        recuperarProdutos();
+        recuperarDadosUsuario();
+        recuperarTokenDestinatarioEmpresa();
+    }
 
     private void exibirMensagem(String texto){
         Toast.makeText(this, texto, Toast.LENGTH_SHORT).show();
