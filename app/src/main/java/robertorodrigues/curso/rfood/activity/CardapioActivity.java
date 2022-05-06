@@ -436,9 +436,10 @@ public class CardapioActivity extends AppCompatActivity {
          if(bundleNotificacao.containsKey("empresa")){
 
             empresaSelecionada  = (Empresa) bundleNotificacao.getSerializable("empresa");
+            token = empresaSelecionada.getTokenEmpresa();
             // token = usuarioDestinatario.getTokenUsuario();
             // recuperar token do NO usuarios
-            usuarioRef =  ConfiguracaoFirebase.getFirebaseDatabase()
+          /*  usuarioRef =  ConfiguracaoFirebase.getFirebaseDatabase()
                     .child("empresas")
                     .child(empresaSelecionada.getIdUsuario())
                     .child("tokenEmpresa");
@@ -455,14 +456,14 @@ public class CardapioActivity extends AppCompatActivity {
                 public void onCancelled(@NonNull DatabaseError error) {
 
                 }
-            });
+            }); */
 
             String tokenDestinatario = token;
             String to = "";// para quem vou enviar a menssagem
             to = tokenDestinatario ;
 
             //Monta objeto notificação
-            Notificacao notificacao = new Notificacao("CeV", "Novo Pedido\n " + usuario.getNome());
+            Notificacao notificacao = new Notificacao("CeV", "Novo Pedido " + usuario.getNome());
             NotificacaoDados notificacaoDados = new NotificacaoDados(to, notificacao );
 
             NotificacaoService service = retrofit.create(NotificacaoService.class);

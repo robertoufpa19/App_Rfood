@@ -573,7 +573,7 @@ public class ChatActivity extends AppCompatActivity {
             to = tokenDestinatario ;
 
             //Monta objeto notificação
-            Notificacao notificacao = new Notificacao("Rfood", "Nova Mensagem");
+            Notificacao notificacao = new Notificacao("Rfood", "Nova Mensagem ");
             NotificacaoDados notificacaoDados = new NotificacaoDados(to, notificacao );
 
             NotificacaoService service = retrofit.create(NotificacaoService.class);
