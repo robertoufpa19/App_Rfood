@@ -100,13 +100,15 @@ public class CardapioActivity extends AppCompatActivity {
           if(bundle != null){
               empresaSelecionada = (Empresa) bundle.getSerializable("empresa");
 
+              token = empresaSelecionada.getTokenEmpresa();
+
               textNomeEmpresaCardapio.setText(empresaSelecionada.getNome());
               idEmpresa = empresaSelecionada.getIdUsuario(); // id do Usuario empresa
               //recuperar foto
               String url = empresaSelecionada.getUrlImagem();
               Picasso.get().load(url).into(imageEmpresaCradapio);
 
-              recuperarTokenDestinatarioEmpresa();
+
           }
 
         // configurar recyclerview
@@ -392,39 +394,6 @@ public class CardapioActivity extends AppCompatActivity {
     }
 
 
-    public  void  recuperarTokenDestinatarioEmpresa(){
-
-        Bundle bundleToken = getIntent().getExtras();
-        if(bundleToken  != null){
-
-       if(bundleToken.containsKey("empresa")){
-
-                empresaSelecionada = (Empresa) bundleToken.getSerializable("empresa");
-                // token = usuarioDestinatario.getTokenUsuario();
-                // recuperar token do NO usuarios
-                usuarioRef =  ConfiguracaoFirebase.getFirebaseDatabase()
-                        .child("empresas")
-                        .child(empresaSelecionada.getIdUsuario())
-                        .child("tokenEmpresa");
-                usuarioRef.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                        String tokenEmpresa =  snapshot.getValue().toString();
-                        token = tokenEmpresa;
-
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
-
-
-            }
-        }
-    }
 
 
     public void enviarNotificacao(){
@@ -434,26 +403,7 @@ public class CardapioActivity extends AppCompatActivity {
 
             empresaSelecionada  = (Empresa) bundleNotificacao.getSerializable("empresa");
             token = empresaSelecionada.getTokenEmpresa();
-            // token = usuarioDestinatario.getTokenUsuario();
-            // recuperar token do NO usuarios
-          /*  usuarioRef =  ConfiguracaoFirebase.getFirebaseDatabase()
-                    .child("empresas")
-                    .child(empresaSelecionada.getIdUsuario())
-                    .child("tokenEmpresa");
-            usuarioRef.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                    String tokenUsuario =  snapshot.getValue().toString();
-                    token = tokenUsuario;
-
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-            }); */
 
             String tokenDestinatario = token;
             String to = "";// para quem vou enviar a menssagem
@@ -496,7 +446,7 @@ public class CardapioActivity extends AppCompatActivity {
         // recuperar produtos da empresa do firebase e dados do usuario
         recuperarProdutos();
         recuperarDadosUsuario();
-        recuperarTokenDestinatarioEmpresa();
+
     }
 
     private void exibirMensagem(String texto){
