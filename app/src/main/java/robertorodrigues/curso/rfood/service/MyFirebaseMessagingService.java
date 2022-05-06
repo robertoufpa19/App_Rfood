@@ -35,8 +35,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
             if(corpo.equals("Nova Mensagem ")){
                 enviarNotificacao(titulo, corpo);
-            }else{
-                enviarNotificacaoPedidos(titulo, corpo);
             }
 
             if(corpo.equals("Novo Pedido ")){

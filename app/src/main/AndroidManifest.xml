@@ -19,6 +19,7 @@
         <activity
             android:name=".activity.MeusPedidosActivity"
             android:exported="false" />
+
         <activity android:name=".activity.MainActivity"
             android:parentActivityName=".activity.HomeActivity"/>
 
