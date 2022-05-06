@@ -160,7 +160,7 @@ public class NovoProdutoEmpresaActivity extends AppCompatActivity   implements V
                     }
                 });
 
-                exibirMensagem("Sucesso ao fazer upload das imagem!");
+                exibirMensagem("Sucesso ao cadastrar produto!");
 
 
             }

@@ -1,85 +1,117 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:padding="10dp"
+    android:background="@color/white"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/textPedidoNome"
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
-        android:text="Jamilton damasceno"
-        android:textColor="@color/ic_logo_rfood_background"
-        android:textSize="16sp"
-        android:textStyle="bold" />
+        android:background="#E4E3E3"
+        android:orientation="vertical"
+        android:padding="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/textPedidoCidade"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/black"
-        android:text="Cidade "
-        android:textSize="14sp" />
+        <TextView
+            android:id="@+id/textPedidoNome"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="Roberto Rodrigues"
+            android:textColor="@color/ic_logo_rfood_background"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/textPedidoBairro"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/black"
-        android:text="Bairro"
-        android:textSize="14sp" />
+        <TextView
+            android:id="@+id/textPedidoCidade"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cidade "
+            android:textColor="@color/black"
+            android:textSize="14sp" />
 
-    <TextView
-        android:id="@+id/textPedidoRua"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/black"
-        android:text="Rua"
-        android:textSize="14sp" />
+        <TextView
+            android:id="@+id/textPedidoBairro"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Bairro"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
 
-    <TextView
-        android:id="@+id/textPedidoNumero"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/black"
-        android:text="Numero"
-        android:textSize="14sp" />
+        <TextView
+            android:id="@+id/textPedidoRua"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Rua"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
 
-    <TextView
-        android:id="@+id/textPedidoTelefone"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/black"
-        android:text="Telefone"
-        android:textSize="14sp" />
+        <TextView
+            android:id="@+id/textPedidoNumero"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Numero"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
 
-    <TextView
-        android:id="@+id/textPedidoPgto"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/black"
-        android:text="Pgto: Dinheiro"
-        android:textSize="14sp" />
+        <TextView
+            android:id="@+id/textPedidoTelefone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Telefone"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
 
-    <TextView
-        android:id="@+id/textPedidoObs"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/black"
-        android:layout_marginBottom="8dp"
-        android:text="Obs: teste"
-        android:textSize="14sp" />
+        <TextView
+            android:id="@+id/textPedidoPgto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Pgto: Dinheiro"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
 
-    <TextView
-        android:id="@+id/textPedidoItens"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="1) Filé Cinco Queijos (1 X R$ 16.50)"
-        android:textColor="@color/ic_logo_rfood_background"
-        android:textSize="16sp"
-        android:textStyle="bold" />
+        <TextView
+            android:id="@+id/textPedidoObs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="Obs: teste"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
 
-    <include layout="@layout/divisor" />
+        <TextView
+            android:id="@+id/textPedidoItens"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="1) Filé Cinco Queijos (1 X R$ 16.50)"
+            android:textColor="@color/ic_logo_rfood_background"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
-</LinearLayout>
+        <include layout="@layout/divisor" />
+
+        <Button
+            android:id="@+id/buttonEnviarMensagemMeusPedidos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/fundo_botao"
+            android:drawableLeft="@drawable/ic_chat_vermelho_24"
+            android:text="Enviar Mensagem ao Vendedor"
+            android:textColor="@color/vermelhoEscuro" />
+
+
+    </LinearLayout>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -11,7 +11,7 @@ import robertorodrigues.curso.rfood.helper.ConfiguracaoFirebase;
 
 public class Empresa implements Serializable, Parcelable {
 
-    private String idUsuario;
+    private String idUsuario; // id empresa
     private String urlImagem;
     private String nome;
     private String tempo; // tempo de entrega

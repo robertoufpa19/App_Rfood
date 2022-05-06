@@ -81,7 +81,11 @@ public class MeusPedidosActivity extends AppCompatActivity {
                             public void onItemClick(View view, int position) {
                                 //configurar clique para abri um chat(iniciar conversas)
 
+                                Pedido pedidoSelecionado = pedidos.get(position);
 
+                                Intent i = new Intent(MeusPedidosActivity.this, ChatActivity.class);
+                                i.putExtra("chat", (Parcelable) pedidoSelecionado);
+                                startActivity(i);
 
                             }
 
