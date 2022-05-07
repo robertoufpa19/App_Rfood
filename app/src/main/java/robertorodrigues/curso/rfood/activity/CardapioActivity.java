@@ -10,6 +10,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -23,6 +24,7 @@ import android.widget.Toast;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
@@ -100,14 +102,14 @@ public class CardapioActivity extends AppCompatActivity {
           if(bundle != null){
               empresaSelecionada = (Empresa) bundle.getSerializable("empresa");
 
-              token = empresaSelecionada.getTokenEmpresa();
-
               textNomeEmpresaCardapio.setText(empresaSelecionada.getNome());
               idEmpresa = empresaSelecionada.getIdUsuario(); // id do Usuario empresa
               //recuperar foto
               String url = empresaSelecionada.getUrlImagem();
               Picasso.get().load(url).into(imageEmpresaCradapio);
 
+
+            //  recuperarTokenDestinatario();
 
           }
 
@@ -370,15 +372,70 @@ public class CardapioActivity extends AppCompatActivity {
                       pedidoRecuperado.setStatus("confirmado");
 
 
-                      pedidoRecuperado.confirmar();
-                      pedidoRecuperado.removerPedido(); // remove o "NO"(pedidos_usuarios)
-                      pedidoRecuperado = null; // zera o pedido recuperado
+                 //notificar inicio
+
+                 String idLoja = pedidoRecuperado.getIdEmpresa();
+
+                 DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+                 DatabaseReference tokenRef = reference
+                         .child("empresas")
+                         .child(idLoja)
+                         .child("tokenEmpresa");
+
+                 tokenRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                     @Override
+                     public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                         String token = snapshot.getValue().toString();
+
+                         String to = token;//token
+
+                         Notificacao notificacao = new Notificacao("Novo pedido", "Novo Pedido "); //Preço do pedido
+
+                         NotificacaoDados notificacaoDados = new NotificacaoDados(to, notificacao);
+
+                         NotificacaoService service = retrofit.create(NotificacaoService.class);
+                         Call<NotificacaoDados> call = service.salvarNotificacao(notificacaoDados);
+
+                         call.enqueue(new Callback<NotificacaoDados>() {
+                             @Override
+                             public void onResponse(Call<NotificacaoDados> call, Response<NotificacaoDados> response) {
+
+                                 if (response.isSuccessful()) {
+
+                                     Log.i("codigo" , "response" + response.code());
+
+                                 }
+
+                             }
+
+                             @Override
+                             public void onFailure(Call<NotificacaoDados> call, Throwable t) {
+
+                             }
+                         });
+
+                     }
+
+                     @Override
+                     public void onCancelled(@NonNull DatabaseError error) {
+
+                     }
+                 });
+
+                 //notificar fim
+
+                 pedidoRecuperado.confirmar();
+                 // enviar notificação para a loja
+                 // enviarNotificacao();
+                 pedidoRecuperado.removerPedido(); // remove o "NO"(pedidos_usuarios)
+                 pedidoRecuperado = null; // zera o pedido recuperado
+
                       exibirMensagem("Pedido realizado com sucesso!");
                       finish();
                       abrirMeusPedidos();
 
-                      // enviar notificação para a loja
-                      enviarNotificacao();
+
 
              }
          });
@@ -402,40 +459,64 @@ public class CardapioActivity extends AppCompatActivity {
          if(bundleNotificacao.containsKey("empresa")){
 
             empresaSelecionada  = (Empresa) bundleNotificacao.getSerializable("empresa");
-            token = empresaSelecionada.getTokenEmpresa();
+            //token = empresaSelecionada.getTokenEmpresa();
+
+             // empresaDestinatario = (Empresa) bundleToken.getSerializable("chat");
+             // token = usuarioDestinatario.getTokenUsuario();
+             // recuperar token do NO usuarios
+             usuarioRef = ConfiguracaoFirebase.getFirebaseDatabase()
+                     .child("empresas")
+                     .child(empresaSelecionada.getIdUsuario())
+                     .child("tokenEmpresa");
+             usuarioRef.addValueEventListener(new ValueEventListener() {
+                 @Override
+                 public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                     String tokenUsuario = snapshot.getValue().toString();
+                    // token = tokenUsuario;
 
 
-            String tokenDestinatario = token;
-            String to = "";// para quem vou enviar a menssagem
-            to = tokenDestinatario ;
+                     String tokenDestinatario = tokenUsuario;
+                     String to = "";// para quem vou enviar a menssagem
+                     to = tokenDestinatario ;
 
-            //Monta objeto notificação
-            Notificacao notificacao = new Notificacao("Rfood", "Novo Pedido " + usuario.getNome());
-            NotificacaoDados notificacaoDados = new NotificacaoDados(to, notificacao );
+                     //Monta objeto notificação
+                     Notificacao notificacao = new Notificacao("Rfood", "Novo Pedido " + usuario.getNome());
+                     NotificacaoDados notificacaoDados = new NotificacaoDados(to, notificacao );
 
-            NotificacaoService service = retrofit.create(NotificacaoService.class);
-            Call<NotificacaoDados> call = service.salvarNotificacao( notificacaoDados );
+                     NotificacaoService service = retrofit.create(NotificacaoService.class);
+                     Call<NotificacaoDados> call = service.salvarNotificacao( notificacaoDados );
 
-            call.enqueue(new Callback<NotificacaoDados>() {
-                @Override
-                public void onResponse(Call<NotificacaoDados> call, Response<NotificacaoDados> response) {
-                    if( response.isSuccessful() ){
+                     call.enqueue(new Callback<NotificacaoDados>() {
+                         @Override
+                         public void onResponse(Call<NotificacaoDados> call, Response<NotificacaoDados> response) {
+                             if( response.isSuccessful() ){
 
-                        //teste para verificar se enviou a notificação
+                                 //teste para verificar se enviou a notificação
                            /*  Toast.makeText(getApplicationContext(),
                                      "codigo: " + response.code(),
                                      Toast.LENGTH_LONG ).show();
 
                             */
 
-                    }
-                }
+                             }
+                         }
 
-                @Override
-                public void onFailure(Call<NotificacaoDados> call, Throwable t) {
+                         @Override
+                         public void onFailure(Call<NotificacaoDados> call, Throwable t) {
 
-                }
-            });
+                         }
+                     });
+
+                 }
+
+                 @Override
+                 public void onCancelled(@NonNull DatabaseError error) {
+
+                 }
+             });
+
+
         }
     }
 

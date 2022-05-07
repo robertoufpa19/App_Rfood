@@ -52,8 +52,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         String canal = getString(R.string.default_notification_channel_id);
         Uri uriSom = RingtoneManager.getDefaultUri( RingtoneManager.TYPE_NOTIFICATION );
         Intent intent = new Intent(this, MainActivity.class); /// atividade de conversas
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
-
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); // auxiliar a não cair na atividade padrão do app
+       // PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         //Criar notificação
         NotificationCompat.Builder notificacao = new NotificationCompat.Builder(this, canal)
                 .setContentTitle( titulo )
@@ -84,8 +85,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         String canal = getString(R.string.default_notification_channel_id);
         Uri uriSom = RingtoneManager.getDefaultUri( RingtoneManager.TYPE_NOTIFICATION );
         Intent intent = new Intent(this, MeusPedidosActivity.class); /// atividade de pedidos
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); // auxiliar a não cair na atividade padrão do app
         //Intent intent = new Intent(this, PedidosActivity.class); /// atividade de pedidos
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
+       // PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         //Criar notificação
         NotificationCompat.Builder notificacao = new NotificationCompat.Builder(this, canal)

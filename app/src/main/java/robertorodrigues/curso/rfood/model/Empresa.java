@@ -9,7 +9,7 @@ import java.io.Serializable;
 
 import robertorodrigues.curso.rfood.helper.ConfiguracaoFirebase;
 
-public class Empresa implements Serializable, Parcelable {
+public class Empresa implements Serializable{
 
     private String idUsuario; // id empresa
     private String urlImagem;
@@ -32,17 +32,7 @@ public class Empresa implements Serializable, Parcelable {
         precoEntrega = in.readString();
     }
 
-    public static final Creator<Empresa> CREATOR = new Creator<Empresa>() {
-        @Override
-        public Empresa createFromParcel(Parcel in) {
-            return new Empresa(in);
-        }
 
-        @Override
-        public Empresa[] newArray(int size) {
-            return new Empresa[size];
-        }
-    };
 
     public  void salvar(){
         DatabaseReference firebaseRef = ConfiguracaoFirebase.getFirebaseDatabase();
@@ -109,19 +99,4 @@ public class Empresa implements Serializable, Parcelable {
         this.tokenEmpresa = tokenEmpresa;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(idUsuario);
-        dest.writeString(tokenEmpresa);
-        dest.writeString(urlImagem);
-        dest.writeString(nome);
-        dest.writeString(tempo);
-        dest.writeString(categoria);
-        dest.writeString(precoEntrega);
-    }
 }

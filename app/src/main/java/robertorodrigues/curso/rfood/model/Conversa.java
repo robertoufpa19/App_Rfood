@@ -9,7 +9,7 @@ import java.io.Serializable;
 
 import robertorodrigues.curso.rfood.helper.ConfiguracaoFirebase;
 
-public class Conversa implements Serializable, Parcelable {
+public class Conversa implements Serializable{
 
     private String idRemetente;
     private String idDestinatario;
@@ -27,27 +27,8 @@ public class Conversa implements Serializable, Parcelable {
       //  this.setIsGrupo("false");
     }
 
-    protected Conversa(Parcel in) {
-        idRemetente = in.readString();
-        idDestinatario = in.readString();
-        ultimaMensagem = in.readString();
-        usuarioExibicaoPedido = in.readParcelable(Pedido.class.getClassLoader());
-        empresaExibicao = in.readParcelable(Pedido.class.getClassLoader());
-        isEmpresa = in.readString();
 
-    }
 
-    public static final Creator<Conversa> CREATOR = new Creator<Conversa>() {
-        @Override
-        public Conversa createFromParcel(Parcel in) {
-            return new Conversa(in);
-        }
-
-        @Override
-        public Conversa[] newArray(int size) {
-            return new Conversa[size];
-        }
-    };
 
     public void salvar(){
 
@@ -116,19 +97,5 @@ public class Conversa implements Serializable, Parcelable {
         this.isEmpresa = isEmpresa;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(idRemetente);
-        dest.writeString(idDestinatario);
-        dest.writeString(ultimaMensagem);
-        dest.writeParcelable(usuarioExibicaoPedido, flags);
-        dest.writeParcelable(empresaExibicao, flags);
-        dest.writeString(isEmpresa);
-
-    }
 }

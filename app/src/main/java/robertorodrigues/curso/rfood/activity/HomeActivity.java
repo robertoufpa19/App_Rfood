@@ -91,7 +91,7 @@ public class HomeActivity extends AppCompatActivity {
 
                                     Empresa empresaSelecionada = empresas.get(position);
                                     Intent i = new Intent(HomeActivity.this, CardapioActivity.class);
-                                     i.putExtra("empresa", (Parcelable) empresaSelecionada);
+                                     i.putExtra("empresa",  empresaSelecionada);
                                      startActivity(i);
                               }
 
