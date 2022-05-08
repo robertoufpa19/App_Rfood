@@ -48,6 +48,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private void enviarNotificacao(String titulo, String corpo){
 
+
+
         //Configuração para notificação
         String canal = getString(R.string.default_notification_channel_id);
         Uri uriSom = RingtoneManager.getDefaultUri( RingtoneManager.TYPE_NOTIFICATION );
@@ -55,6 +57,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); // auxiliar a não cair na atividade padrão do app
        // PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        //ver qual atividade está sendo aberta
+        Log.i("atividade aberta ", "activity" + intent + " corpo: " + corpo );
+
         //Criar notificação
         NotificationCompat.Builder notificacao = new NotificationCompat.Builder(this, canal)
                 .setContentTitle( titulo )
