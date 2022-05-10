@@ -6,6 +6,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -195,8 +197,40 @@ public class HomeActivity extends AppCompatActivity {
 
     private void deslogarUsuario(){
         try {
-            autenticacao.signOut();
-            finish();
+            //autenticacao.signOut();
+           // finish();
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
+            builder.setTitle("Sair");
+            builder.setMessage("Tem certeza que deseja sair?");
+
+            builder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                    try {
+                        autenticacao.signOut();
+                        finish();
+
+                    }catch (Exception  e){
+                        e.printStackTrace();
+                    }
+
+                    invalidateOptionsMenu(); // invalidar os menus de 3 pontinhos ao deslogar usuario
+                    finish();
+                    startActivity(new Intent(HomeActivity.this, AutenticacaoActivity.class));
+                }
+            });
+            builder.setNegativeButton("Não", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+
+                }
+            });
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
 
         }catch (Exception  e){
             e.printStackTrace();
@@ -212,5 +246,11 @@ public class HomeActivity extends AppCompatActivity {
 
     private void abrirConfiguracoes(){
         startActivity(new Intent(HomeActivity.this, ConfiguracoesUsuarioActivity.class));
+    }
+
+    @Override
+    public void finish() {
+        finishAffinity();
+        super.finish();
     }
 }
