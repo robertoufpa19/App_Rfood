@@ -68,7 +68,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setSmallIcon( R.drawable.ic_camera_black_24dp)
                 .setSound( uriSom )
                 .setAutoCancel( true )
-                .setContentIntent( pendingIntent );
+                .setContentIntent( pendingIntent )
+                 .setPriority(NotificationCompat.PRIORITY_HIGH)
+                 .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                 .setFullScreenIntent(pendingIntent, true);
 
         //Recupera notificationManager
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
@@ -103,7 +106,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setSmallIcon(R.drawable.ic_camera_black_24dp)
                 .setSound( uriSom )
                 .setAutoCancel( true )
-                .setContentIntent( pendingIntent );
+                .setContentIntent( pendingIntent )
+                 .setPriority(NotificationCompat.PRIORITY_HIGH)
+                 .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                 .setFullScreenIntent(pendingIntent, true);
 
         //Recupera notificationManager
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
