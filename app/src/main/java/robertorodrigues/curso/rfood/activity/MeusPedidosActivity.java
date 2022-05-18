@@ -25,6 +25,7 @@ import com.google.firebase.database.ValueEventListener;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import dmax.dialog.SpotsDialog;
@@ -132,6 +133,7 @@ public class MeusPedidosActivity extends AppCompatActivity {
                         pedidos.add(pedido);
                     }
                     adapterPedido.notifyDataSetChanged();
+                    Collections.reverse(pedidos);
                     dialog.dismiss();
                 }else if(snapshot.getValue() == null){ // senao tiver pedidos
                     exibirMensagem("Você não tem pedidos!");
