@@ -1,5 +1,7 @@
 package robertorodrigues.curso.rfood.fragment;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -22,7 +24,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import robertorodrigues.curso.rfood.R;
+import robertorodrigues.curso.rfood.activity.AutenticacaoActivity;
 import robertorodrigues.curso.rfood.activity.ChatActivity;
+import robertorodrigues.curso.rfood.activity.HomeActivity;
 import robertorodrigues.curso.rfood.adapter.ConversasAdapter;
 import robertorodrigues.curso.rfood.helper.ConfiguracaoFirebase;
 import robertorodrigues.curso.rfood.helper.UsuarioFirebase;
@@ -43,6 +47,8 @@ public class ConversasFragment extends Fragment {
     private DatabaseReference database;
     private DatabaseReference conversasRef;
     private ChildEventListener childEventListenerConversas;
+
+    
 
     public ConversasFragment() {}
 
@@ -102,6 +108,38 @@ public class ConversasFragment extends Fragment {
 
                             @Override
                             public void onLongItemClick(View view, int position) {
+
+                                // criar uma codicao para verificar se e  conversaSelecionado.getEmpresaExibicao()
+                                //ou getUsuarioExibicaoPedido()
+                                List<Conversa> listaConversasAtualizada = adapter.getConversas();
+                                Conversa conversaSelecionada = listaConversasAtualizada .get(position); // seleciona conversa que foi buscada de forma correta
+
+
+                                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                                builder.setTitle("Excluir");
+                                builder.setMessage("Tem certeza que deseja excluir essa conversa?");
+
+                                builder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+
+                                        conversaSelecionada.removerConversa();
+
+
+                                    }
+                                });
+                                builder.setNegativeButton("Não", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+
+
+                                    }
+                                });
+
+                                AlertDialog dialog = builder.create();
+                                dialog.show();
+
+
 
                             }
 

@@ -8,6 +8,7 @@ import com.google.firebase.database.DatabaseReference;
 import java.io.Serializable;
 
 import robertorodrigues.curso.rfood.helper.ConfiguracaoFirebase;
+import robertorodrigues.curso.rfood.helper.UsuarioFirebase;
 
 public class Conversa implements Serializable{
 
@@ -38,6 +39,20 @@ public class Conversa implements Serializable{
         conversaRef.child( this.getIdRemetente() )
                 .child( this.getIdDestinatario() )
                 .setValue( this );
+
+    }
+
+
+    public void removerConversa() {
+
+
+        String identificadorUsuario = UsuarioFirebase.getIdUsuario();
+
+        DatabaseReference firebaseRef = ConfiguracaoFirebase.getFirebaseDatabase();
+        DatabaseReference conversasRef = firebaseRef
+                .child("conversas")
+                .child(identificadorUsuario);
+        conversasRef.removeValue();
 
     }
 

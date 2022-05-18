@@ -18,24 +18,15 @@
         android:theme="@style/Theme.RFood">
         <activity
             android:name=".activity.MeusPedidosActivity"
-            android:taskAffinity=""
-            android:excludeFromRecents="true"
-            android:launchMode="singleTask"
             android:exported="false" />
 
         <activity android:name=".activity.MainActivity"
-            android:taskAffinity=""
-            android:excludeFromRecents="true"
-            android:launchMode="singleTask"
             android:parentActivityName=".activity.HomeActivity"/>
 
         <activity android:name=".activity.ChatActivity" />
 
         <activity
             android:name=".activity.PedidosActivity"
-            android:taskAffinity=""
-            android:excludeFromRecents="true"
-            android:launchMode="singleTask"
             android:parentActivityName=".activity.EmpresaActivity" />
 
         <activity
