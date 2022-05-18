@@ -272,6 +272,8 @@ public class ChatActivity extends AppCompatActivity {
         conversaRemetente.setUltimaMensagem(msg.getMensagem());
         conversaRemetente.setUsuarioExibicaoPedido(pedidoUsuarioDestinatario);
 
+        conversaRemetente.setUltimaConversa("true");
+
 
         if(isEmpresa){
             conversaRemetente.setIsEmpresa("true");

@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.Collections;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -43,6 +44,16 @@ public class ConversasAdapter extends RecyclerView.Adapter<ConversasAdapter.MyVi
 
         Conversa conversa = conversas.get( position );
         holder.ultimaMensagem.setText( conversa.getUltimaMensagem() );
+
+        if(conversa.getUltimaConversa() != null){
+            if(conversa.getUltimaConversa().equals("true")){
+                //teste
+                //Collections.reverseOrder();
+                //getConversas().get(0);
+
+            }
+        }
+
 
         if(conversa.getIsEmpresa().equals("true")){
             Pedido empresa = conversa.getUsuarioExibicaoPedido();

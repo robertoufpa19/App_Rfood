@@ -89,6 +89,8 @@ public class ConversasFragment extends Fragment {
                                    Intent intent = new Intent(getActivity(), ChatActivity.class);
                                    intent.putExtra("chat", (Parcelable) conversaSelecionada.getUsuarioExibicaoPedido());
                                    startActivity( intent );
+                                   conversaSelecionada.setUltimaConversa("false");
+                                   conversaSelecionada.salvar();
 
 
                                 }else{
@@ -96,6 +98,8 @@ public class ConversasFragment extends Fragment {
                                     Intent i = new Intent(getActivity(), ChatActivity.class);
                                     i.putExtra("pedidos", (Parcelable) conversaSelecionada.getUsuarioExibicaoPedido());
                                     startActivity( i );
+                                    conversaSelecionada.setUltimaConversa("false");
+                                    conversaSelecionada.salvar();
                                 }
 
 

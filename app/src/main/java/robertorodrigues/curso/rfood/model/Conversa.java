@@ -19,6 +19,7 @@ public class Conversa implements Serializable{
     private Pedido usuarioExibicaoPedido;
     private Empresa empresaExibicao;
     private String isEmpresa;
+    private String ultimaConversa;
 
 
   //  private Grupo grupo;
@@ -112,5 +113,11 @@ public class Conversa implements Serializable{
         this.isEmpresa = isEmpresa;
     }
 
+    public String getUltimaConversa() {
+        return ultimaConversa;
+    }
 
+    public void setUltimaConversa(String ultimaConversa) {
+        this.ultimaConversa = ultimaConversa;
+    }
 }
