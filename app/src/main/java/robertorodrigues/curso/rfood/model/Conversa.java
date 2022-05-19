@@ -172,7 +172,6 @@ public class Conversa implements Serializable{
         this.ultimaConversa = ultimaConversa;
     }
 
-
     public String getHoraConversa() {
         return horaConversa;
     }

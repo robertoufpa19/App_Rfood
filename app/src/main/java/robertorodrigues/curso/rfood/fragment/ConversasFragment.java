@@ -96,7 +96,7 @@ public class ConversasFragment extends Fragment {
                                 List<Conversa> listaConversasAtualizada = adapter.getConversas();
                                 Conversa conversaSelecionada = listaConversasAtualizada .get(position); // seleciona conversa que foi buscada de forma correta
 
-                                conversa = listaConversasAtualizada.get(position);
+
 
 
                                if (conversaSelecionada.getIsEmpresa().equals("true")) {
@@ -174,34 +174,13 @@ public class ConversasFragment extends Fragment {
 
         String identificadorUsuario = UsuarioFirebase.getIdUsuario();
 
-        // recuperar NO hora da conversa
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference tokenRef = reference
-                .child("conversas")
-                .child(conversa.getHoraConversa())  // está nulo
-                .child(identificadorUsuario);
-
-        tokenRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                String horaDaConversaRef = snapshot.getValue().toString();
-                horaConversa = horaDaConversaRef;
-
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
 
 
         //Configura conversas ref
 
         database = ConfiguracaoFirebase.getFirebaseDatabase();
-        conversasRef = database.child("conversas").child(horaConversa)  // falta recuperar hora
+        conversasRef = database.child("conversas")
+                .child("16:56:16" )
                 .child( identificadorUsuario );
 
         return view;
@@ -228,7 +207,7 @@ public class ConversasFragment extends Fragment {
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
                 // Recuperar conversas
-                Conversa conversa = dataSnapshot.getValue( Conversa.class );
+                conversa = dataSnapshot.getValue( Conversa.class );
                 listaConversas.add( conversa );
                 Collections.reverse(listaConversas);
                 adapter.notifyDataSetChanged();
