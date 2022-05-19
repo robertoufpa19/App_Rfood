@@ -8,6 +8,7 @@ public class DataAtual {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         String dataString = dateFormat.format(data);
 
+
         return dataString;
     }
 
