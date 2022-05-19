@@ -53,12 +53,15 @@ public class MensagensAdapter extends RecyclerView.Adapter<MensagensAdapter.MyVi
 
         Mensagem mensagem = mensagens.get(position);
         String msg = mensagem.getMensagem();
+        String data = mensagem.getDataMensagem();
+        String hora = mensagem.getHoraMensagem();
+
         String imagem = mensagem.getImagem();
         // se o usuario tiver uma imagem vamos exibir a imagem.Senão vamos exibir o texto
 
         if(imagem != null){
 
-
+            holder.dataHora.setText(" Dt: "+data + " / H:" + hora);
             //Carregar imagem
             String urlImagem = mensagem.getImagem();
             Picasso.get().load( urlImagem ).into( holder.imagem);
@@ -76,6 +79,7 @@ public class MensagensAdapter extends RecyclerView.Adapter<MensagensAdapter.MyVi
         }else{
 
             holder.mensagem.setText(msg); // texto recuperado
+            holder.dataHora.setText(" Dt: "+data + " / H:" + hora);
 
             String nome = mensagem.getNome();
             if(!nome.isEmpty()){
@@ -112,7 +116,7 @@ public class MensagensAdapter extends RecyclerView.Adapter<MensagensAdapter.MyVi
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
 
-        TextView mensagem;
+        TextView mensagem, dataHora;
         TextView nome;
         ImageView imagem;
 
@@ -121,6 +125,8 @@ public class MensagensAdapter extends RecyclerView.Adapter<MensagensAdapter.MyVi
             mensagem = itemView.findViewById(R.id.textMensagemTexto);
             imagem = itemView.findViewById(R.id.imageMensagemFoto);
             nome = itemView.findViewById(R.id.textNomeExibicao);
+            dataHora = itemView.findViewById(R.id.textMensagemHoraData);
+
 
         }
     }

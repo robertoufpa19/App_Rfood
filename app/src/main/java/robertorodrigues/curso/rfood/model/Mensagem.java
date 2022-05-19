@@ -7,6 +7,9 @@ public class Mensagem {
     private String imagem;
     private String tokenUsuario;
 
+    private String horaMensagem;
+    private String dataMensagem;
+
     public Mensagem() {
         this.setNome("");
     }
@@ -49,5 +52,21 @@ public class Mensagem {
 
     public void setTokenUsuario(String tokenUsuario) {
         this.tokenUsuario = tokenUsuario;
+    }
+
+    public String getHoraMensagem() {
+        return horaMensagem;
+    }
+
+    public void setHoraMensagem(String horaMensagem) {
+        this.horaMensagem = horaMensagem;
+    }
+
+    public String getDataMensagem() {
+        return dataMensagem;
+    }
+
+    public void setDataMensagem(String dataMensagem) {
+        this.dataMensagem = dataMensagem;
     }
 }

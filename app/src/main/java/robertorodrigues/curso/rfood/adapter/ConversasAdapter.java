@@ -45,14 +45,7 @@ public class ConversasAdapter extends RecyclerView.Adapter<ConversasAdapter.MyVi
         Conversa conversa = conversas.get( position );
         holder.ultimaMensagem.setText( conversa.getUltimaMensagem() );
 
-        if(conversa.getUltimaConversa() != null){
-            if(conversa.getUltimaConversa().equals("true")){
-                //teste
-                //Collections.reverseOrder();
-                //getConversas().get(0);
 
-            }
-        }
 
 
         if(conversa.getIsEmpresa().equals("true")){

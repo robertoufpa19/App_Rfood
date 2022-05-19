@@ -53,6 +53,8 @@ import robertorodrigues.curso.rfood.model.Mensagem;
 import robertorodrigues.curso.rfood.model.Notificacao;
 import robertorodrigues.curso.rfood.model.NotificacaoDados;
 import robertorodrigues.curso.rfood.model.Pedido;
+import robertorodrigues.curso.rfood.util.DataAtual;
+import robertorodrigues.curso.rfood.util.HoraAtual;
 
 public class ChatActivity extends AppCompatActivity {
 
@@ -211,6 +213,8 @@ public class ChatActivity extends AppCompatActivity {
                     Mensagem mensagem = new Mensagem();
                     mensagem.setIdUsuario( idUsuarioRemetente );
                     mensagem.setMensagem( textoMensagem );
+                    mensagem.setDataMensagem(DataAtual.dataAtual());
+                    mensagem.setHoraMensagem(HoraAtual.horaAtual());
 
                     //Salvar mensagem para o remetente
                     salvarMensagem(idUsuarioRemetente, idUsuarioDestinatario, mensagem);
@@ -234,6 +238,9 @@ public class ChatActivity extends AppCompatActivity {
                     Mensagem mensagem = new Mensagem();
                     mensagem.setIdUsuario( idUsuarioRemetente );
                     mensagem.setMensagem( textoMensagem );
+
+                    mensagem.setDataMensagem(DataAtual.dataAtual());
+                    mensagem.setHoraMensagem(HoraAtual.horaAtual());
 
                     //Salvar mensagem para o remetente
                     salvarMensagem(idUsuarioRemetente, idUsuarioDestinatario, mensagem);
@@ -273,6 +280,9 @@ public class ChatActivity extends AppCompatActivity {
         conversaRemetente.setUsuarioExibicaoPedido(pedidoUsuarioDestinatario);
 
         conversaRemetente.setUltimaConversa("true");
+
+        conversaRemetente.setDataConversa(DataAtual.dataAtual());
+        conversaRemetente.setHoraConversa(HoraAtual.horaAtual());
 
 
         if(isEmpresa){
@@ -383,6 +393,9 @@ public class ChatActivity extends AppCompatActivity {
                                                 mensagem.setMensagem("imagem.jpeg");
                                                 mensagem.setImagem(dowloadUrl);
 
+                                                mensagem.setDataMensagem(DataAtual.dataAtual());
+                                                mensagem.setHoraMensagem(HoraAtual.horaAtual());
+
                                                 //Salvar mensagem para o remetente
                                                 salvarMensagem(idUsuarioRemetente, idUsuarioDestinatario, mensagem);
 
@@ -408,6 +421,9 @@ public class ChatActivity extends AppCompatActivity {
                                                 mensagem.setIdUsuario( idUsuarioRemetente );
                                                 mensagem.setMensagem("imagem.jpeg");
                                                 mensagem.setImagem(dowloadUrl);
+
+                                                mensagem.setDataMensagem(DataAtual.dataAtual());
+                                                mensagem.setHoraMensagem(HoraAtual.horaAtual());
 
                                                 //Salvar mensagem para o remetente
                                                 salvarMensagem(idUsuarioRemetente, idUsuarioDestinatario, mensagem);

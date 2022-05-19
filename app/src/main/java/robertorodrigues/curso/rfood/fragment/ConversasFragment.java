@@ -5,11 +5,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Parcelable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,20 +21,30 @@ import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import robertorodrigues.curso.rfood.R;
 import robertorodrigues.curso.rfood.activity.AutenticacaoActivity;
 import robertorodrigues.curso.rfood.activity.ChatActivity;
 import robertorodrigues.curso.rfood.activity.HomeActivity;
 import robertorodrigues.curso.rfood.adapter.ConversasAdapter;
+import robertorodrigues.curso.rfood.api.NotificacaoService;
 import robertorodrigues.curso.rfood.helper.ConfiguracaoFirebase;
 import robertorodrigues.curso.rfood.helper.UsuarioFirebase;
 import robertorodrigues.curso.rfood.listener.RecyclerItemClickListener;
 import robertorodrigues.curso.rfood.model.Conversa;
+import robertorodrigues.curso.rfood.model.Notificacao;
+import robertorodrigues.curso.rfood.model.NotificacaoDados;
 import robertorodrigues.curso.rfood.model.Pedido;
+import robertorodrigues.curso.rfood.util.HoraAtual;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -48,7 +60,8 @@ public class ConversasFragment extends Fragment {
     private DatabaseReference conversasRef;
     private ChildEventListener childEventListenerConversas;
 
-    
+     private String horaConversa;
+     private Conversa conversa;
 
     public ConversasFragment() {}
 
@@ -83,6 +96,7 @@ public class ConversasFragment extends Fragment {
                                 List<Conversa> listaConversasAtualizada = adapter.getConversas();
                                 Conversa conversaSelecionada = listaConversasAtualizada .get(position); // seleciona conversa que foi buscada de forma correta
 
+                                conversa = listaConversasAtualizada.get(position);
 
 
                                if (conversaSelecionada.getIsEmpresa().equals("true")) {
@@ -156,10 +170,37 @@ public class ConversasFragment extends Fragment {
         );
 
 
-        //Configura conversas ref
+
         String identificadorUsuario = UsuarioFirebase.getIdUsuario();
+
+        // recuperar NO hora da conversa
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference tokenRef = reference
+                .child("conversas")
+                .child(conversa.getHoraConversa())  // está nulo
+                .child(identificadorUsuario);
+
+        tokenRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                String horaDaConversaRef = snapshot.getValue().toString();
+                horaConversa = horaDaConversaRef;
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+        //Configura conversas ref
+
         database = ConfiguracaoFirebase.getFirebaseDatabase();
-        conversasRef = database.child("conversas")
+        conversasRef = database.child("conversas").child(horaConversa)  // falta recuperar hora
                 .child( identificadorUsuario );
 
         return view;
@@ -188,6 +229,7 @@ public class ConversasFragment extends Fragment {
                 // Recuperar conversas
                 Conversa conversa = dataSnapshot.getValue( Conversa.class );
                 listaConversas.add( conversa );
+                Collections.reverse(listaConversas);
                 adapter.notifyDataSetChanged();
 
 
@@ -215,6 +257,9 @@ public class ConversasFragment extends Fragment {
         });
 
     }
+
+
+
 
 
 }

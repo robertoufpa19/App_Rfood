@@ -35,6 +35,13 @@
             app:srcCompat="@drawable/padrao" />
 
         <TextView
+            android:id="@+id/textMensagemHoraData"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#9F9B9B"
+            android:text="TextView"
+            android:textSize="10sp" />
+        <TextView
             android:id="@+id/textMensagemTexto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
