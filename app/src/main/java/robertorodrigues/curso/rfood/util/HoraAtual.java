@@ -9,7 +9,6 @@ public class HoraAtual {
         SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
         String horaString = dateFormat.format(hora);
 
-
         return horaString;
     }
 }
