@@ -33,6 +33,7 @@ import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -89,7 +90,10 @@ public class ChatActivity extends AppCompatActivity {
     private String baseUrl;
     private Retrofit retrofit;
 
-
+    // teste
+    private ChildEventListener childEventListenerConversas;
+    private DatabaseReference conversasRef;
+    private DatabaseReference databaseConversas;
 
 
 
@@ -195,6 +199,15 @@ public class ChatActivity extends AppCompatActivity {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
+
+        /// referencia para atualizar nó de conversas recente
+        String identificadorUsuario = UsuarioFirebase.getIdUsuario();
+        databaseConversas = ConfiguracaoFirebase.getFirebaseDatabase();
+        conversasRef = databaseConversas.child("conversas")
+                .child( identificadorUsuario );
+
+
+        atualizarConversasRecentes();
 
 
     }
@@ -478,6 +491,7 @@ public class ChatActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         mensagensRef.removeEventListener( childEventListenerMensagens );
+
     }
 
     private void recuperarMensagens(){
@@ -619,4 +633,42 @@ public class ChatActivity extends AppCompatActivity {
             });
         }
     }
+
+
+    public void atualizarConversasRecentes(){
+
+        childEventListenerConversas = conversasRef.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
+                // Recuperar conversas
+                Conversa conversa = dataSnapshot.getValue( Conversa.class );
+                conversa.setUltimaConversa("false");
+                conversa.salvar();
+
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
 }
