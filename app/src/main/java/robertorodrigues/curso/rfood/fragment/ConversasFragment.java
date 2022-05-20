@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Parcelable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,30 +20,22 @@ import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import robertorodrigues.curso.rfood.R;
-import robertorodrigues.curso.rfood.activity.AutenticacaoActivity;
 import robertorodrigues.curso.rfood.activity.ChatActivity;
-import robertorodrigues.curso.rfood.activity.HomeActivity;
 import robertorodrigues.curso.rfood.adapter.ConversasAdapter;
-import robertorodrigues.curso.rfood.api.NotificacaoService;
 import robertorodrigues.curso.rfood.helper.ConfiguracaoFirebase;
 import robertorodrigues.curso.rfood.helper.UsuarioFirebase;
 import robertorodrigues.curso.rfood.listener.RecyclerItemClickListener;
 import robertorodrigues.curso.rfood.model.Conversa;
-import robertorodrigues.curso.rfood.model.Notificacao;
-import robertorodrigues.curso.rfood.model.NotificacaoDados;
 import robertorodrigues.curso.rfood.model.Pedido;
-import robertorodrigues.curso.rfood.util.HoraAtual;
+import robertorodrigues.curso.rfood.model.Usuario;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -54,14 +45,11 @@ public class ConversasFragment extends Fragment {
 
     private RecyclerView recyclerViewConversas; // pedidos
     private List<Conversa> listaConversas = new ArrayList<>(); //lista de pedidos
-    private List<Pedido> listaPedidos = new ArrayList<>();
     private ConversasAdapter adapter;
     private DatabaseReference database;
     private DatabaseReference conversasRef;
     private ChildEventListener childEventListenerConversas;
 
-     private String horaConversa;
-     private Conversa conversa;
 
     public ConversasFragment() {}
 
@@ -174,14 +162,17 @@ public class ConversasFragment extends Fragment {
 
         String identificadorUsuario = UsuarioFirebase.getIdUsuario();
 
-
-
-        //Configura conversas ref
+       /* database = ConfiguracaoFirebase.getFirebaseDatabase();
+        conversasRef = database.child("conversas")
+                .child(String.valueOf(horaConversa))
+                .child( identificadorUsuario ); */
 
         database = ConfiguracaoFirebase.getFirebaseDatabase();
         conversasRef = database.child("conversas")
-                .child("16:56:16" )
                 .child( identificadorUsuario );
+
+
+
 
         return view;
     }
@@ -190,6 +181,7 @@ public class ConversasFragment extends Fragment {
     public void onStart() {
         super.onStart();
         recuperarConversas();
+
     }
 
     @Override
@@ -202,15 +194,18 @@ public class ConversasFragment extends Fragment {
 
         listaConversas.clear();
 
+
+
         childEventListenerConversas = conversasRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
                 // Recuperar conversas
-                conversa = dataSnapshot.getValue( Conversa.class );
+               Conversa conversa = dataSnapshot.getValue( Conversa.class );
                 listaConversas.add( conversa );
-                Collections.reverse(listaConversas);
+               // Collections.reverse(listaConversas);
                 adapter.notifyDataSetChanged();
+
 
 
             }
@@ -237,7 +232,6 @@ public class ConversasFragment extends Fragment {
         });
 
     }
-
 
 
 

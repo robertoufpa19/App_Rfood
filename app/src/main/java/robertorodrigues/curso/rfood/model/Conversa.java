@@ -28,37 +28,53 @@ public class Conversa implements Serializable{
     private String dataConversa;
 
 
-  //  private Grupo grupo;
-
     public Conversa() {
-       // this.setIsEmpresa("false");
-      //  this.setIsGrupo("false");
+
     }
 
 
 
+    public void salvarHora(){
 
-    /*
-    temos que criar
-       contado(0, 1,2, 3, etc...)
-       id remetnede
-       id destinatario
+        DatabaseReference database = ConfiguracaoFirebase.getFirebaseDatabase();
+        DatabaseReference conversaRef = database.child("conversas_hora");
 
-     */
+        conversaRef.child(this.getHoraConversa())
+                .child( this.getIdRemetente() )
+                .child( this.getIdDestinatario() )
+                .setValue( this );
+
+    }
+
+
 
     public void salvar(){
 
         DatabaseReference database = ConfiguracaoFirebase.getFirebaseDatabase();
-        DatabaseReference conversaRef = database.child("conversas").child(getHoraConversa());
+        DatabaseReference conversaRef = database.child("conversas");
 
         conversaRef.child( this.getIdRemetente() )
                 .child( this.getIdDestinatario() )
                 .setValue( this );
 
+    }
+
+
+    public void removerConversaHora() {
+
+
+        String identificadorUsuario = UsuarioFirebase.getIdUsuario();
+
+        DatabaseReference firebaseRef = ConfiguracaoFirebase.getFirebaseDatabase();
+        DatabaseReference conversasRef = firebaseRef
+                .child("conversas")
+                .child(getHoraConversa())
+                .child(identificadorUsuario);
+        conversasRef.removeValue();
+
 
 
     }
-
 
     public void removerConversa() {
 
