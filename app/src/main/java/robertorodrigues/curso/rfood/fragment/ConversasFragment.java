@@ -45,8 +45,8 @@ import robertorodrigues.curso.rfood.util.HoraAtual;
  */
 public class ConversasFragment extends Fragment {
 
-    private RecyclerView recyclerViewConversas; // pedidos
-    private List<Conversa> listaConversas = new ArrayList<>(); //lista de pedidos
+    private RecyclerView recyclerViewConversas;
+    private List<Conversa> listaConversas = new ArrayList<>();
     private ConversasAdapter adapter;
     private DatabaseReference database;
     private DatabaseReference conversasRef;
