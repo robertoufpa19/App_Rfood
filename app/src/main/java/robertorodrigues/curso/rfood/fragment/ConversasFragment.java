@@ -36,6 +36,8 @@ import robertorodrigues.curso.rfood.listener.RecyclerItemClickListener;
 import robertorodrigues.curso.rfood.model.Conversa;
 import robertorodrigues.curso.rfood.model.Pedido;
 import robertorodrigues.curso.rfood.model.Usuario;
+import robertorodrigues.curso.rfood.util.DataAtual;
+import robertorodrigues.curso.rfood.util.HoraAtual;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -200,11 +202,25 @@ public class ConversasFragment extends Fragment {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
+
+
                 // Recuperar conversas
                Conversa conversa = dataSnapshot.getValue( Conversa.class );
-                listaConversas.add( conversa );
-               // Collections.reverse(listaConversas);
-                adapter.notifyDataSetChanged();
+
+                if(conversa.getUltimaConversa().equals("true")){
+
+                    listaConversas.add( conversa );
+                    Collections.reverse(listaConversas);
+                    adapter.notifyDataSetChanged();
+
+                }else  if(conversa.getUltimaConversa().equals("false")){
+
+                    listaConversas.add( conversa );
+                    adapter.notifyDataSetChanged();
+
+
+                }
+
 
 
 
