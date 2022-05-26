@@ -9,12 +9,16 @@
     android:orientation="vertical"
     tools:context=".activity.AutenticacaoActivity">
 
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="250dp"
-        android:layout_height="150dp"
-        android:layout_marginBottom="15dp"
-        app:srcCompat="@drawable/logorfood" />
+
+    <TextView
+        android:id="@+id/textRFOOD"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="R FOOD"
+        android:layout_marginBottom="20dp"
+        android:textColor="@color/white"
+        android:textSize="50sp" />
 
 
     <EditText
@@ -82,7 +86,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:gravity="center" />
+            android:gravity="center"
+            tools:ignore="TouchTargetSizeCheck" />
 
         <TextView
             android:id="@+id/textView2"
@@ -143,7 +148,7 @@
         android:id="@+id/buttonAcessoGoogle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         android:background="@drawable/fundo_botao"
         android:gravity="center"
@@ -163,7 +168,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:text="Logar com Google"
+            android:text="Entrar com Google"
             android:textColor="@color/white" />
 
 

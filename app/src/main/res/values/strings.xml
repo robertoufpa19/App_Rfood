@@ -4,4 +4,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string name="default_notification_channel_id">fcm_default_channel</string>
+    <string name="default_web_client_id2" translatable="false">72280103213-d4gesft9pjcj7sgscu3n5atb2trqji9p.apps.googleusercontent.com</string>
+
 </resources>

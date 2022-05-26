@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "72280103213",
+    "firebase_url": "https://r-food-default-rtdb.firebaseio.com",
     "project_id": "r-food",
     "storage_bucket": "r-food.appspot.com"
   },
