@@ -21,6 +21,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -82,7 +83,8 @@ public class ConfiguracoesUsuarioActivity extends AppCompatActivity {
 
 
 
-        //recuperar dados do usuario
+
+
         recuperarDadosUsuario();
     }
 
@@ -96,20 +98,47 @@ public class ConfiguracoesUsuarioActivity extends AppCompatActivity {
 
                 if(snapshot.getValue() != null){
                     Usuario usuario = snapshot.getValue(Usuario.class);
-                    editUsuarioNome.setText(usuario.getNome());
+
                     editUsuarioCidade.setText(usuario.getCidade());
                     editUsuarioBairro.setText(usuario.getBairro());
                     editUsuarioRua.setText(usuario.getRua());
                     editUsuarioNumeroCasa.setText(usuario.getNumero());
                     editUsuarioTelefone.setText(usuario.getTelefone());
 
-                    //recuperar imagem de perfil da empresa
-                    urlImagemSelecionada = usuario.getUrlImagem();
-                    if (urlImagemSelecionada != ""){
-                        Picasso.get()
-                                .load(urlImagemSelecionada)
-                                .into(imagePerfilUsuario);
+
+                    //recuperar dados do usuario google
+                    FirebaseUser usuarioAtual = UsuarioFirebase.getUsuarioAtual();
+
+                    if(usuarioAtual.getDisplayName() != null  ){
+                        editUsuarioNome.setText(usuarioAtual.getDisplayName());
+
                     }
+
+                    if(usuario.getNome() != null){
+                        editUsuarioNome.setText(usuario.getNome());
+                    }
+
+
+
+
+
+                    if(usuarioAtual.getPhotoUrl() != null){
+
+                        Picasso.get()
+                                .load(usuarioAtual.getPhotoUrl())
+                                .into(imagePerfilUsuario);
+
+                    }else if(usuario.getUrlImagem() != ""){
+                        //recuperar imagem de perfil configurada
+                        urlImagemSelecionada = usuario.getUrlImagem();
+                        if (urlImagemSelecionada != ""){
+                            Picasso.get()
+                                    .load(urlImagemSelecionada)
+                                    .into(imagePerfilUsuario);
+                        }
+                    }
+
+
 
                 }
             }
@@ -134,7 +163,15 @@ public class ConfiguracoesUsuarioActivity extends AppCompatActivity {
         String foto = urlImagemSelecionada;
 
 
-        if(foto != "") {
+
+        //recuperar dados do usuario google
+        FirebaseUser usuarioAtual = UsuarioFirebase.getUsuarioAtual();
+
+        String fotoGoogle = String.valueOf(usuarioAtual.getPhotoUrl());
+
+
+
+        if(foto != "" || fotoGoogle != null) {
             if (!nome.isEmpty()) {
                 if (!cidade.isEmpty()) {
                     if (!bairro.isEmpty()) {
@@ -151,6 +188,8 @@ public class ConfiguracoesUsuarioActivity extends AppCompatActivity {
                                     usuario.setRua(rua);
                                     usuario.setNumero(numero);
                                     usuario.setTelefone(telefone);
+
+                                    usuario.setUrlImagem(fotoGoogle);
                                     usuario.setUrlImagem(urlImagemSelecionada);
 
                                     // indentificador Usuario Token para enviar notificação para um usuario
