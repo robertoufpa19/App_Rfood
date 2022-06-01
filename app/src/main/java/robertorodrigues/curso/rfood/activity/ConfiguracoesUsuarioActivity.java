@@ -189,8 +189,15 @@ public class ConfiguracoesUsuarioActivity extends AppCompatActivity {
                                     usuario.setNumero(numero);
                                     usuario.setTelefone(telefone);
 
-                                    usuario.setUrlImagem(fotoGoogle);
-                                    usuario.setUrlImagem(urlImagemSelecionada);
+                                    if(usuarioAtual.getPhotoUrl() != null){
+                                        usuario.setUrlImagem(fotoGoogle);
+                                    }
+
+                                    if(foto != ""){
+                                        usuario.setUrlImagem(urlImagemSelecionada);
+                                    }
+
+
 
                                     // indentificador Usuario Token para enviar notificação para um usuario
                                     // inicio cadastro do token usuario
