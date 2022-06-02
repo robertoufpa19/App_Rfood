@@ -209,7 +209,6 @@ public class AutenticacaoActivity extends AppCompatActivity {
 
 
 
-// erro no metodo de login da google
 
     /// metodos de login com a conta do google inicio
 
