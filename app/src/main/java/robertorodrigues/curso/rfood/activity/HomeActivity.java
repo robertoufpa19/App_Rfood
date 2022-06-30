@@ -223,8 +223,6 @@ public class HomeActivity extends AppCompatActivity {
                     }
 
                     invalidateOptionsMenu(); // invalidar os menus de 3 pontinhos ao deslogar usuario
-                    finish();
-                    startActivity(new Intent(HomeActivity.this, AutenticacaoActivity.class));
                 }
             });
             builder.setNegativeButton("Não", new DialogInterface.OnClickListener() {
