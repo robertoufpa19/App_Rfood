@@ -12,6 +12,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -43,9 +44,10 @@ public class AutenticacaoActivity extends AppCompatActivity {
     private Button botaoAcessar;
     private FirebaseAuth autenticacao;
     private LinearLayout linearTipoUsuario;
+    private TextView textOutrasFormasLogin;
 
     /// autenticacao do dispositivo com a conta do google
-    private LinearLayout buttonAcessoGoogle;
+    private LinearLayout buttonAcessoGoogle, linearLayoutOcultar;
     private static final int RC_SIGN_IN = 123;
     private GoogleSignInClient mGoogleSignInClient; // Cliente de login do Google
     private static final String TAG = "GoogleActivity";
@@ -162,13 +164,23 @@ public class AutenticacaoActivity extends AppCompatActivity {
           }
       }
   });
-
+        buttonAcessoGoogle.setVisibility(View.GONE);
         buttonAcessoGoogle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dadosUsuario();
             }
         });
+
+        textOutrasFormasLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                buttonAcessoGoogle.setVisibility(View.VISIBLE);
+                linearLayoutOcultar.setVisibility(View.GONE);
+            }
+        });
+
+
 
     }
 
@@ -193,8 +205,10 @@ public class AutenticacaoActivity extends AppCompatActivity {
         botaoAcessar= findViewById(R.id.buttonAcesso);
         tipoUsuario = findViewById(R.id.switchTipoUsuario);
         linearTipoUsuario = findViewById(R.id.linearTipoUsuario);
+        linearLayoutOcultar = findViewById(R.id.linearLayoutOcultar);
 
         buttonAcessoGoogle = findViewById(R.id.buttonAcessoGoogle);
+        textOutrasFormasLogin = findViewById(R.id.textOutrasFormasLogin);
 
     }
 

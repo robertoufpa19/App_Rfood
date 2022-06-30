@@ -17,6 +17,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -41,6 +46,8 @@ public class HomeActivity extends AppCompatActivity {
     private List<Empresa> empresas = new ArrayList<>();
     private DatabaseReference firebaseRef;
     private AdapterEmpresa adapterEmpresa;
+    // teste
+    private GoogleSignInClient mGoogleSignInClient; // Cliente de login do Google
 
 
     @Override
@@ -209,8 +216,7 @@ public class HomeActivity extends AppCompatActivity {
                 public void onClick(DialogInterface dialog, int which) {
 
                     try {
-                        autenticacao.signOut();
-                        finish();
+                        deslogarContaGoogle();
 
                     }catch (Exception  e){
                         e.printStackTrace();
@@ -235,6 +241,29 @@ public class HomeActivity extends AppCompatActivity {
         }catch (Exception  e){
             e.printStackTrace();
         }
+    }
+
+    private void deslogarContaGoogle() {
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id2))
+                .requestEmail()
+                .build();
+
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
+
+        mGoogleSignInClient.signOut()
+                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+
+                        autenticacao = ConfiguracaoFirebase.getFirebaseAutenticacao();
+                        autenticacao.signOut();
+                        startActivity(new Intent(HomeActivity.this, AutenticacaoActivity.class));
+                        finish();
+                    }
+                });
     }
 
     private void abrirConversas(){
