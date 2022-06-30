@@ -9,6 +9,12 @@
     android:orientation="vertical"
     tools:context=".activity.AutenticacaoActivity">
 
+    <ImageView
+        android:id="@+id/imageVoltarAutenticacao"
+        android:layout_width="128dp"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_action_navigation_arrow_back_inverted" />
+
     <LinearLayout
         android:id="@+id/linearLayoutOcultar"
         android:layout_width="match_parent"

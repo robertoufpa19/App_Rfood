@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -45,6 +46,7 @@ public class AutenticacaoActivity extends AppCompatActivity {
     private FirebaseAuth autenticacao;
     private LinearLayout linearTipoUsuario;
     private TextView textOutrasFormasLogin;
+    private ImageView imageVoltarAutenticacao;
 
     /// autenticacao do dispositivo com a conta do google
     private LinearLayout buttonAcessoGoogle, linearLayoutOcultar;
@@ -164,7 +166,8 @@ public class AutenticacaoActivity extends AppCompatActivity {
           }
       }
   });
-        buttonAcessoGoogle.setVisibility(View.GONE);
+
+
         buttonAcessoGoogle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -176,7 +179,17 @@ public class AutenticacaoActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 buttonAcessoGoogle.setVisibility(View.VISIBLE);
+                imageVoltarAutenticacao.setVisibility(View.VISIBLE);
                 linearLayoutOcultar.setVisibility(View.GONE);
+            }
+        });
+
+        imageVoltarAutenticacao.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                buttonAcessoGoogle.setVisibility(View.GONE);
+                imageVoltarAutenticacao.setVisibility(View.GONE);
+                linearLayoutOcultar.setVisibility(View.VISIBLE);
             }
         });
 
@@ -209,6 +222,7 @@ public class AutenticacaoActivity extends AppCompatActivity {
 
         buttonAcessoGoogle = findViewById(R.id.buttonAcessoGoogle);
         textOutrasFormasLogin = findViewById(R.id.textOutrasFormasLogin);
+        imageVoltarAutenticacao = findViewById(R.id.imageVoltarAutenticacao);
 
     }
 
@@ -252,6 +266,9 @@ public class AutenticacaoActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+
+        imageVoltarAutenticacao.setVisibility(View.GONE);
+        buttonAcessoGoogle.setVisibility(View.GONE);
 
         // verifica se o usuário fez login (não nulo) e atualiza a interface de acordo.
         FirebaseUser currentUser = autenticacao.getCurrentUser();
